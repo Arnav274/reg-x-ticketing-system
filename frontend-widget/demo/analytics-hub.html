@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/demo/host.css" />
+    <title>Analytics Hub</title>
+  </head>
+  <body>
+    <!--
+      Nav links use the contract paths verbatim (/analytics-hub and so on),
+      never /demo/analytics-hub.html. The contract path is what
+      detectProductPage() reads, so a link to the underlying file would load a
+      page that looks right and then detect no product at all.
+
+      This markup is repeated on all four pages. That duplication is accepted
+      rather than solved with a template step or a JS-rendered nav: these are
+      dev-server-only demo pages, and a build step would be more machinery than
+      the thing it removes.
+    -->
+    <nav class="hp-nav" aria-label="Product">
+      <div class="hp-nav__inner">
+        <span class="hp-brand">
+          <span class="hp-brand__mark">RRP</span>
+          <span class="hp-brand__name">Regulatory Reporting Platform</span>
+        </span>
+        <ul class="hp-nav__links">
+          <li><a class="hp-nav__link" href="/analytics-hub" aria-current="page">Analytics Hub</a></li>
+          <li><a class="hp-nav__link" href="/user-portal">User Portal</a></li>
+          <li><a class="hp-nav__link" href="/billing-engine">Billing Engine</a></li>
+          <li><a class="hp-nav__link" href="/settings-suite">Settings Suite</a></li>
+          <li class="hp-nav__item--admin"><a class="hp-nav__link" href="/admin">Tickets</a></li>
+        </ul>
+        <span class="hp-user">
+          <span class="hp-avatar" aria-hidden="true">JD</span>
+          johndoe
+        </span>
+      </div>
+    </nav>
+
+    <main class="hp-main">
+      <div class="hp-head">
+        <div>
+          <h1>Analytics Hub</h1>
+          <p class="hp-sub">Submission health across every regime you report under.</p>
+        </div>
+        <span class="hp-period">Reporting period: 1 to 31 July 2026</span>
+      </div>
+
+      <section class="hp-section" aria-label="Headline figures">
+        <div class="hp-cards">
+          <div class="hp-card">
+            <div class="hp-card__label">Submissions filed</div>
+            <div class="hp-card__value">12,847</div>
+            <div class="hp-card__foot">up 6.2% on June</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Validation pass rate</div>
+            <div class="hp-card__value">96.4%</div>
+            <div class="hp-card__foot">target 95.0%</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Open exceptions</div>
+            <div class="hp-card__value">37</div>
+            <div class="hp-card__foot">9 past their remediation window</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Median time to file</div>
+            <div class="hp-card__value">3.2h</div>
+            <div class="hp-card__foot">from trade capture to acknowledgement</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hp-section">
+        <div class="hp-panel">
+          <h2 class="hp-section__title">Submissions by reporting regime</h2>
+          <div class="hp-chart">
+            <div class="hp-bar-row">
+              <span class="hp-bar-label">EMIR REFIT</span>
+              <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 100%"></span></span>
+              <span class="hp-bar-value">4,912</span>
+            </div>
+            <div class="hp-bar-row">
+              <span class="hp-bar-label">MiFIR</span>
+              <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 71%"></span></span>
+              <span class="hp-bar-value">3,488</span>
+            </div>
+            <div class="hp-bar-row">
+              <span class="hp-bar-label">SFTR</span>
+              <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 44%"></span></span>
+              <span class="hp-bar-value">2,160</span>
+            </div>
+            <div class="hp-bar-row">
+              <span class="hp-bar-label">ASIC</span>
+              <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 26%"></span></span>
+              <span class="hp-bar-value">1,274</span>
+            </div>
+            <div class="hp-bar-row">
+              <span class="hp-bar-label">MAS 610</span>
+              <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 14%"></span></span>
+              <span class="hp-bar-value">683</span>
+            </div>
+            <div class="hp-bar-row">
+              <span class="hp-bar-label">CFTC Part 45</span>
+              <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 7%"></span></span>
+              <span class="hp-bar-value">330</span>
+            </div>
+          </div>
+          <p class="hp-note">Counts are accepted submissions only. Resubmissions after a validation failure are counted once.</p>
+        </div>
+      </section>
+
+      <section class="hp-section">
+        <div class="hp-panel hp-panel--flush">
+          <div class="hp-panel__head">
+            <h2 class="hp-panel__title">Recent validation exceptions</h2>
+            <span class="hp-panel__meta">37 open, showing 5</span>
+          </div>
+          <div class="hp-tablewrap">
+            <table class="hp-table">
+              <thead>
+                <tr>
+                  <th scope="col">Reference</th>
+                  <th scope="col">Regime</th>
+                  <th scope="col">Rule</th>
+                  <th scope="col">Entity</th>
+                  <th scope="col">Raised</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="hp-strong">EXC-40218</td>
+                  <td>EMIR REFIT</td>
+                  <td>Notional currency not permitted for asset class</td>
+                  <td>Northwind Capital LLP</td>
+                  <td class="hp-muted">29 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--bad">Breach</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">EXC-40211</td>
+                  <td>MiFIR</td>
+                  <td>Missing short selling indicator</td>
+                  <td>Pemberton Asset Management</td>
+                  <td class="hp-muted">29 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--warn">Under review</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">EXC-40197</td>
+                  <td>SFTR</td>
+                  <td>Collateral valuation reported after T+1</td>
+                  <td>Northwind Capital LLP</td>
+                  <td class="hp-muted">28 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--warn">Under review</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">EXC-40182</td>
+                  <td>EMIR REFIT</td>
+                  <td>Counterparty LEI failed renewal check</td>
+                  <td>Calder Fund Services</td>
+                  <td class="hp-muted">27 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--ok">Remediated</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">EXC-40166</td>
+                  <td>ASIC</td>
+                  <td>Unique transaction identifier duplicated</td>
+                  <td>Harlow Securities Ltd</td>
+                  <td class="hp-muted">26 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--idle">Awaiting client</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

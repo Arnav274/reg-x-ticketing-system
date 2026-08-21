@@ -1,0 +1,423 @@
+@import "../src/styles/tokens.css";
+
+/*
+  The admin console owns its whole document, so unlike the widget's stylesheet
+  this one is allowed page-level selectors.
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--tk-ground);
+}
+
+body {
+  margin: 0;
+  padding: var(--tk-6) var(--tk-5);
+  font-family: var(--tk-sans);
+  font-size: var(--tk-fs-base);
+  line-height: 1.5;
+  color: var(--tk-ink);
+  background: var(--tk-ground);
+}
+
+.ad {
+  max-width: 78rem;
+  margin: 0 auto;
+  display: grid;
+  gap: var(--tk-5);
+}
+
+/* ------------------------------------------------------------------ header */
+
+.ad-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--tk-4);
+  flex-wrap: wrap;
+  padding-bottom: var(--tk-3);
+  border-bottom: 1px solid var(--tk-line);
+}
+
+.ad-title {
+  margin: 0;
+  font-size: var(--tk-fs-lg);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.ad-identity {
+  margin: 0;
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+}
+
+/* ----------------------------------------------------------------- filters */
+
+.ad-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--tk-4);
+  padding: var(--tk-4);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line);
+  border-radius: var(--tk-r-lg);
+}
+
+.ad-filter {
+  display: grid;
+  gap: var(--tk-1);
+}
+
+.ad-label {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tk-ink-2);
+}
+
+/* Explicit height rather than each control's intrinsic one: a <select> and a
+   type="date" input size differently, which left the four filter labels sitting
+   on two different baselines. */
+.ad-input {
+  font: inherit;
+  height: 2.375rem;
+  min-width: 11rem;
+  color: var(--tk-ink);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line-strong);
+  border-radius: var(--tk-r);
+  padding: var(--tk-2) var(--tk-3);
+}
+
+.ad-input:focus-visible {
+  outline: 2px solid var(--tk-accent);
+  outline-offset: 1px;
+}
+
+/* The in-row status control is the same input as the filters above, only
+   sized to sit inside a table cell: the filter height and its 11rem minimum
+   would make every row noticeably taller than its own text. Fills its column
+   instead of setting a width, so the column stays the one place a width is
+   declared. */
+.ad-input--sm {
+  height: 1.75rem;
+  min-width: 0;
+  width: 100%;
+  font-size: var(--tk-fs-sm);
+  padding: 0 var(--tk-2);
+}
+
+/* ----------------------------------------------------------------- summary */
+
+/* Same surface treatment as the filter panel above it, so the two read as one
+   band of controls-and-context sitting over the table rather than as two
+   unrelated cards. */
+.ad-summary {
+  display: grid;
+  gap: var(--tk-4);
+  padding: var(--tk-4);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line);
+  border-radius: var(--tk-r-lg);
+}
+
+.ad-summary-title {
+  margin: 0;
+  font-size: var(--tk-fs-md);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Side by side when there is room, stacked when there is not. auto-fit rather
+   than two fixed columns so a narrow window wraps instead of squeezing the bars
+   to a width where their lengths stop being comparable. */
+.ad-summary-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: var(--tk-5);
+}
+
+.ad-summary-group {
+  display: grid;
+  gap: var(--tk-3);
+  align-content: start;
+}
+
+/* Matches .ad-label, since it does the same job for the group below it. */
+.ad-summary-heading {
+  margin: 0;
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tk-ink-2);
+}
+
+.ad-bars {
+  display: grid;
+  gap: var(--tk-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Fixed name and count columns so the bars all start and end on the same two
+   lines: bars that begin at different offsets cannot be compared by length,
+   which is the only thing they are for. */
+.ad-bar {
+  display: grid;
+  grid-template-columns: 8rem 1fr 2rem;
+  align-items: center;
+  gap: var(--tk-3);
+}
+
+.ad-bar-name {
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink);
+}
+
+.ad-bar-track {
+  display: block;
+  width: 100%;
+  height: 8px;
+  background: var(--tk-sunken);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ad-bar-fill {
+  display: block;
+  height: 100%;
+}
+
+/* Products take one neutral: there is no semantic difference between the four,
+   and four colours would invite reading one of them as worse than the others. */
+.ad-bar-fill--product {
+  background: var(--tk-ink-2);
+}
+
+/* Categories may use the severity hues, which is what those tokens are for, so
+   the panel and the table's chips encode severity the same way. */
+.ad-bar-fill--high {
+  background: var(--tk-high-fg);
+}
+.ad-bar-fill--medium {
+  background: var(--tk-med-fg);
+}
+.ad-bar-fill--low {
+  background: var(--tk-low-fg);
+}
+
+/* Suggestion and Request are not severities, and colouring them as one would say
+   something the data does not. Neutral, exactly as their chips are. */
+.ad-bar-fill--suggestion,
+.ad-bar-fill--request {
+  background: var(--tk-ink-3);
+}
+
+.ad-bar-count {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-sm);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--tk-ink);
+}
+
+/* ------------------------------------------------------------------- table */
+
+.ad-count {
+  margin: 0;
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tk-ink-2);
+}
+
+/* The table gets its own scroll container so a narrow window never makes the
+   page itself scroll sideways. */
+.ad-tablewrap {
+  overflow-x: auto;
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line);
+  border-radius: var(--tk-r-lg);
+}
+
+.ad-table {
+  width: 100%;
+  /* Grown with the declared columns rather than left behind them: 60rem before
+     the status column added 9.5rem, then 64rem before the AI column widened by
+     2rem. The six declared columns now come to 56.5rem, so this leaves
+     Description 9.5rem before the wrapper starts scrolling, which is the
+     narrowest column for the widest content. */
+  min-width: 66rem;
+  border-collapse: collapse;
+  /* Fixed layout is what stops the browser sizing columns off content and
+     leaving the dead gap that used to sit between AI suggestion and
+     Description. Widths are declared once, on the header cells. */
+  table-layout: fixed;
+}
+
+.ad-table th,
+.ad-table td {
+  /* Headers and data share one alignment, so a heading actually sits above its
+     column instead of floating over the middle of it. */
+  text-align: left;
+  vertical-align: top;
+  padding: var(--tk-3) var(--tk-4);
+  /* One line box for every cell, in px. The columns mix 13px mono with 14px
+     sans, and letting each cell derive its own line height put the first line
+     of a row on three slightly different baselines. */
+  line-height: 20px;
+}
+
+.ad-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-micro);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tk-ink-2);
+  background: var(--tk-sunken);
+  border-bottom: 1px solid var(--tk-line-strong);
+  white-space: nowrap;
+}
+
+.ad-table tbody tr {
+  border-bottom: 1px solid var(--tk-line);
+}
+
+.ad-table tbody tr:last-child {
+  border-bottom: 0;
+}
+
+.ad-table tbody tr:hover {
+  background: var(--tk-ground);
+}
+
+.ad-col-date {
+  width: 10.5rem;
+}
+.ad-col-product {
+  width: 9rem;
+}
+.ad-col-category {
+  width: 8rem;
+}
+/* Wide enough that the longest option, "In progress", is not clipped by the
+   select's own dropdown arrow: the cell's 1rem padding each side and the arrow
+   leave the control about 2rem less than the column. Measured in a browser at
+   8rem first, which truncated it to "In progres". */
+.ad-col-status {
+  width: 9.5rem;
+}
+.ad-col-user {
+  width: 8.5rem;
+}
+/* Widened from 9rem for "AI: no suggestion", which otherwise wrapped to
+   "AI: no / suggestion" and split one label across two lines. Measured in a
+   browser: the cell's 1rem padding each side left 9rem about 20px short. */
+.ad-col-ai {
+  width: 11rem;
+}
+
+.ad-date {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--tk-ink-2);
+  white-space: nowrap;
+}
+
+.ad-user,
+.ad-ai {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+}
+
+/* Long reports wrap inside the column instead of stretching the table, and
+   break-word keeps an unspaced string (a pasted URL, a payload) from pushing
+   the layout out. */
+.ad-desc {
+  color: var(--tk-ink);
+  overflow-wrap: break-word;
+}
+
+/* Severity, encoded in form as well as text so the urgent rows read at a
+   glance rather than having to be word-matched. */
+/* Sized to exactly one cell line box and aligned to its top, which is what puts
+   the chip on the same line as the date and username beside it. An inline-block
+   left to sit on the text baseline hangs a couple of pixels low. */
+.ad-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  vertical-align: top;
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-micro);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0 7px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.ad-chip--high {
+  color: var(--tk-high-fg);
+  background: var(--tk-high-bg);
+  border-color: var(--tk-high-line);
+}
+
+.ad-chip--medium {
+  color: var(--tk-med-fg);
+  background: var(--tk-med-bg);
+  border-color: var(--tk-med-line);
+}
+
+.ad-chip--low {
+  color: var(--tk-low-fg);
+  background: var(--tk-low-bg);
+  border-color: var(--tk-low-line);
+}
+
+.ad-chip--suggestion,
+.ad-chip--request {
+  color: var(--tk-ink-2);
+  background: var(--tk-sunken);
+  border-color: var(--tk-line-strong);
+}
+
+/* ----------------------------------------------------------------- notices */
+
+.ad-notice {
+  margin: 0;
+  padding: var(--tk-3) var(--tk-4);
+  font-size: var(--tk-fs-sm);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line);
+  border-left-width: 3px;
+  border-radius: var(--tk-r);
+  color: var(--tk-ink-2);
+}
+
+.ad-notice--error {
+  color: var(--tk-high-fg);
+  background: var(--tk-high-bg);
+  border-color: var(--tk-high-line);
+}

@@ -1,0 +1,71 @@
+/*
+  Shared design tokens for the embedded widget and the admin console.
+
+  Custom properties only. This file declares no paintable rule, so importing it
+  into a host page it does not own cannot change how that page looks. Both
+  stylesheets pull from here so the two surfaces cannot drift apart.
+
+  The neutrals are biased slightly green rather than being pure greys, so they
+  read as chosen alongside the pine accent instead of inherited.
+*/
+:root {
+  /* Ground and ink */
+  --tk-ground: #f3f5f3;
+  --tk-surface: #ffffff;
+  --tk-sunken: #e9ece9;
+  --tk-ink: #1a201e;
+  --tk-ink-2: #59635f;
+  --tk-ink-3: #7d8783;
+  --tk-ink-disabled: #6f7a75;
+  --tk-line: #d7dcd8;
+  --tk-line-strong: #c2c9c4;
+
+  /* Accent. Carries one job throughout: primary action, focus, and AI
+     provenance. Kept clear of the severity hues below so "this came from the
+     AI" and "this is urgent" never compete for the same colour. */
+  --tk-accent: #1f5c4b;
+  --tk-accent-hover: #17493b;
+  --tk-accent-tint: #e2ece7;
+  --tk-accent-line: #c5dbd2;
+  --tk-overlay: rgba(21, 30, 27, 0.55);
+
+  /* Severity. Semantic, and deliberately not the accent. */
+  --tk-high-fg: #8c2f1f;
+  --tk-high-bg: #f7e3de;
+  --tk-high-line: #e8c4bb;
+  --tk-med-fg: #855210;
+  --tk-med-bg: #f8ead2;
+  --tk-med-line: #ecd6ab;
+  --tk-low-fg: #35576e;
+  --tk-low-bg: #e2ecf3;
+  --tk-low-line: #c4d8e5;
+
+  /* Type. System stacks rather than a webfont: a font CDN would be a new
+     network dependency that can fall back silently, and the project forbids
+     new dependencies. Prose takes the sans, data takes the mono. */
+  --tk-sans: ui-sans-serif, -apple-system, "Segoe UI Variable Text", "Segoe UI",
+    Roboto, system-ui, sans-serif;
+  --tk-mono: ui-monospace, "Cascadia Mono", "Cascadia Code", Consolas, "SF Mono",
+    Menlo, monospace;
+
+  --tk-fs-micro: 0.6875rem;
+  --tk-fs-sm: 0.8125rem;
+  --tk-fs-base: 0.875rem;
+  --tk-fs-md: 1rem;
+  --tk-fs-lg: 1.25rem;
+
+  /* Spacing, on a 4px base. */
+  --tk-1: 0.25rem;
+  --tk-2: 0.5rem;
+  --tk-3: 0.75rem;
+  --tk-4: 1rem;
+  --tk-5: 1.5rem;
+  --tk-6: 2rem;
+
+  --tk-r: 3px;
+  --tk-r-lg: 5px;
+
+  /* The only shadow in the application, spent on the elements that have to
+     read as floating above the page: the modal and the fixed launcher. */
+  --tk-lift: 0 1px 2px rgba(21, 30, 27, 0.06), 0 14px 34px -10px rgba(21, 30, 27, 0.28);
+}

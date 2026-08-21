@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tickets
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Postgres runs *.sql here in filename order on first init of an empty
+      # data directory, so 001_ then 002_ apply automatically on a fresh volume.
+      - ./backend/src/db/migrations:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+    env_file:
+      - .env
+    ports:
+      - "${PORT:-3000}:3000"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

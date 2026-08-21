@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/demo/host.css" />
+    <title>Settings Suite</title>
+  </head>
+  <body>
+    <!-- Nav links use the contract paths verbatim; see analytics-hub.html. -->
+    <nav class="hp-nav" aria-label="Product">
+      <div class="hp-nav__inner">
+        <span class="hp-brand">
+          <span class="hp-brand__mark">RRP</span>
+          <span class="hp-brand__name">Regulatory Reporting Platform</span>
+        </span>
+        <ul class="hp-nav__links">
+          <li><a class="hp-nav__link" href="/analytics-hub">Analytics Hub</a></li>
+          <li><a class="hp-nav__link" href="/user-portal">User Portal</a></li>
+          <li><a class="hp-nav__link" href="/billing-engine">Billing Engine</a></li>
+          <li><a class="hp-nav__link" href="/settings-suite" aria-current="page">Settings Suite</a></li>
+          <li class="hp-nav__item--admin"><a class="hp-nav__link" href="/admin">Tickets</a></li>
+        </ul>
+        <span class="hp-user">
+          <span class="hp-avatar" aria-hidden="true">JD</span>
+          johndoe
+        </span>
+      </div>
+    </nav>
+
+    <main class="hp-main">
+      <div class="hp-head">
+        <div>
+          <h1>Settings Suite</h1>
+          <p class="hp-sub">Reporting defaults, validation behaviour and integrations.</p>
+        </div>
+        <span class="hp-period">Scope: Northwind Capital LLP</span>
+      </div>
+
+      <section class="hp-section">
+        <div class="hp-grid-2">
+          <div class="hp-panel">
+            <h2 class="hp-section__title">Reporting defaults</h2>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-regime">Primary regime</label>
+                <p class="hp-setting__hint">Applied to submissions with no regime specified</p>
+              </div>
+              <select class="hp-select" id="set-regime">
+                <option>EMIR REFIT</option>
+                <option>MiFIR</option>
+                <option>SFTR</option>
+                <option>ASIC</option>
+              </select>
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-timezone">Reporting time zone</label>
+                <p class="hp-setting__hint">Determines the T+1 deadline boundary</p>
+              </div>
+              <select class="hp-select" id="set-timezone">
+                <option>Europe/London</option>
+                <option>Europe/Dublin</option>
+                <option>Asia/Singapore</option>
+              </select>
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-cutoff">Submission cut-off</label>
+                <p class="hp-setting__hint">Batches after this time file the next working day</p>
+              </div>
+              <input class="hp-input" id="set-cutoff" type="text" value="17:30" readonly />
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-weekend">File on non-working days</label>
+                <p class="hp-setting__hint">Follows the UK bank holiday calendar</p>
+              </div>
+              <input class="hp-switch" id="set-weekend" type="checkbox" />
+            </div>
+          </div>
+
+          <div class="hp-panel">
+            <h2 class="hp-section__title">Validation rules</h2>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-prevalidate">Pre-validate before submission</label>
+                <p class="hp-setting__hint">Runs the regulator's schema locally first</p>
+              </div>
+              <input class="hp-switch" id="set-prevalidate" type="checkbox" checked />
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-lei">Block on expired counterparty LEI</label>
+                <p class="hp-setting__hint">Holds the submission instead of filing a breach</p>
+              </div>
+              <input class="hp-switch" id="set-lei" type="checkbox" checked />
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-dupes">Duplicate UTI detection</label>
+                <p class="hp-setting__hint">Compares against the last 90 days of submissions</p>
+              </div>
+              <input class="hp-switch" id="set-dupes" type="checkbox" checked />
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-tolerance">Notional tolerance</label>
+                <p class="hp-setting__hint">Difference permitted before reconciliation flags a break</p>
+              </div>
+              <select class="hp-select" id="set-tolerance">
+                <option>0.01%</option>
+                <option>0.05%</option>
+                <option>0.10%</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hp-section">
+        <div class="hp-grid-2">
+          <div class="hp-panel">
+            <h2 class="hp-section__title">Notifications</h2>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-breach">Breach raised</label>
+                <p class="hp-setting__hint">Immediate email to all approvers</p>
+              </div>
+              <input class="hp-switch" id="set-breach" type="checkbox" checked />
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-digest">Daily submission digest</label>
+                <p class="hp-setting__hint">Sent at 08:00 in the reporting time zone</p>
+              </div>
+              <input class="hp-switch" id="set-digest" type="checkbox" checked />
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-deadline">Deadline reminders</label>
+                <p class="hp-setting__hint">Two hours before the cut-off</p>
+              </div>
+              <input class="hp-switch" id="set-deadline" type="checkbox" />
+            </div>
+          </div>
+
+          <div class="hp-panel">
+            <h2 class="hp-section__title">Integrations</h2>
+            <div class="hp-setting">
+              <div>
+                <div class="hp-setting__label">API key</div>
+                <p class="hp-setting__hint">Last rotated 14 May 2026</p>
+              </div>
+              <span class="hp-code">rrp_live_••••••••4471</span>
+            </div>
+            <div class="hp-setting">
+              <div>
+                <div class="hp-setting__label">Trade capture feed</div>
+                <p class="hp-setting__hint">SFTP, hourly</p>
+              </div>
+              <span class="hp-pill hp-pill--ok">Connected</span>
+            </div>
+            <div class="hp-setting">
+              <div>
+                <div class="hp-setting__label">Reconciliation export</div>
+                <p class="hp-setting__hint">Nightly to your data warehouse</p>
+              </div>
+              <span class="hp-pill hp-pill--warn">Credentials expiring</span>
+            </div>
+            <div class="hp-setting">
+              <div>
+                <label class="hp-setting__label" for="set-retention">Record retention</label>
+                <p class="hp-setting__hint">Minimum five years under EMIR</p>
+              </div>
+              <select class="hp-select" id="set-retention">
+                <option>5 years</option>
+                <option>7 years</option>
+                <option>10 years</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <p class="hp-note">Changes apply to Northwind Capital LLP only. Group-wide defaults are managed at the parent entity.</p>
+      </section>
+    </main>
+
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/demo/host.css" />
+    <title>User Portal</title>
+  </head>
+  <body>
+    <!-- Nav links use the contract paths verbatim; see analytics-hub.html. -->
+    <nav class="hp-nav" aria-label="Product">
+      <div class="hp-nav__inner">
+        <span class="hp-brand">
+          <span class="hp-brand__mark">RRP</span>
+          <span class="hp-brand__name">Regulatory Reporting Platform</span>
+        </span>
+        <ul class="hp-nav__links">
+          <li><a class="hp-nav__link" href="/analytics-hub">Analytics Hub</a></li>
+          <li><a class="hp-nav__link" href="/user-portal" aria-current="page">User Portal</a></li>
+          <li><a class="hp-nav__link" href="/billing-engine">Billing Engine</a></li>
+          <li><a class="hp-nav__link" href="/settings-suite">Settings Suite</a></li>
+          <li class="hp-nav__item--admin"><a class="hp-nav__link" href="/admin">Tickets</a></li>
+        </ul>
+        <span class="hp-user">
+          <span class="hp-avatar" aria-hidden="true">JD</span>
+          johndoe
+        </span>
+      </div>
+    </nav>
+
+    <main class="hp-main">
+      <div class="hp-head">
+        <div>
+          <h1>User Portal</h1>
+          <p class="hp-sub">People with access to reporting entities in your group.</p>
+        </div>
+        <span class="hp-period">14 users, 3 entities</span>
+      </div>
+
+      <section class="hp-section" aria-label="Access summary">
+        <div class="hp-cards">
+          <div class="hp-card">
+            <div class="hp-card__label">Active users</div>
+            <div class="hp-card__value">11</div>
+            <div class="hp-card__foot">signed in within 30 days</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Approvers</div>
+            <div class="hp-card__value">4</div>
+            <div class="hp-card__foot">can release a submission</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Pending invitations</div>
+            <div class="hp-card__value">2</div>
+            <div class="hp-card__foot">oldest sent 6 days ago</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Access reviews due</div>
+            <div class="hp-card__value">1</div>
+            <div class="hp-card__foot">Calder Fund Services, 12 Aug</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hp-section">
+        <div class="hp-panel hp-panel--flush">
+          <div class="hp-panel__head">
+            <h2 class="hp-panel__title">Users and access</h2>
+            <span class="hp-panel__meta">Showing all 14</span>
+          </div>
+          <div class="hp-tablewrap">
+            <table class="hp-table">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Reporting entity</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Regimes</th>
+                  <th scope="col">Last active</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="hp-strong">Amara Osei</td>
+                  <td>Northwind Capital LLP</td>
+                  <td>Reporting approver</td>
+                  <td>EMIR REFIT, MiFIR</td>
+                  <td class="hp-muted">Today, 09:14</td>
+                  <td><span class="hp-pill hp-pill--ok">Active</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">Tomas Lindqvist</td>
+                  <td>Northwind Capital LLP</td>
+                  <td>Reporting analyst</td>
+                  <td>EMIR REFIT</td>
+                  <td class="hp-muted">Today, 08:02</td>
+                  <td><span class="hp-pill hp-pill--ok">Active</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">Priya Raghavan</td>
+                  <td>Pemberton Asset Management</td>
+                  <td>Reporting approver</td>
+                  <td>MiFIR, SFTR</td>
+                  <td class="hp-muted">Yesterday, 17:40</td>
+                  <td><span class="hp-pill hp-pill--ok">Active</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">Daniel Whitfield</td>
+                  <td>Pemberton Asset Management</td>
+                  <td>Read only</td>
+                  <td>All regimes</td>
+                  <td class="hp-muted">4 Aug 2026</td>
+                  <td><span class="hp-pill hp-pill--ok">Active</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">Grace Adeyemi</td>
+                  <td>Calder Fund Services</td>
+                  <td>Entity administrator</td>
+                  <td>All regimes</td>
+                  <td class="hp-muted">2 Aug 2026</td>
+                  <td><span class="hp-pill hp-pill--warn">Review due</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">Marcus Bell</td>
+                  <td>Calder Fund Services</td>
+                  <td>Reporting analyst</td>
+                  <td>ASIC, MAS 610</td>
+                  <td class="hp-muted">28 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--idle">Dormant</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">Yuki Tanaka</td>
+                  <td>Harlow Securities Ltd</td>
+                  <td>Reporting analyst</td>
+                  <td>CFTC Part 45</td>
+                  <td class="hp-muted">Invitation sent</td>
+                  <td><span class="hp-pill hp-pill--idle">Invited</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">Rowan Petrie</td>
+                  <td>Harlow Securities Ltd</td>
+                  <td>Reporting analyst</td>
+                  <td>EMIR REFIT</td>
+                  <td class="hp-muted">21 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--bad">Suspended</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="hp-note">Roles are inherited from the entity hierarchy. Changing a role here applies at the next access review.</p>
+      </section>
+    </main>
+
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

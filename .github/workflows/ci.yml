@@ -1,0 +1,88 @@
+name: CI
+
+# Both projects are separate npm projects with no workspace between them, so
+# they get a job each and run in parallel. Node 24 matches the "engines" field
+# both package.json files declare.
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  backend:
+    name: Backend typecheck and tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    # Obviously fake values, and deliberately not repository secrets. Both
+    # suites are offline by construction: the classifier tests stub fetch and
+    # the service tests substitute the model, so a real provider key here would
+    # only create the possibility of the tests reaching the network, which is
+    # exactly what they are written not to do. The unroutable database port is
+    # the same idea: if a test ever failed to intercept, the connection failure
+    # is a loud signal rather than a silent pass.
+    #
+    # Both test files also assign these before importing the code under test, so
+    # in practice neither suite depends on the block below. It stays as cover for
+    # the next suite added, because config/env.ts and config/aiProvider.ts both
+    # call process.exit(1) at import on a missing variable, which kills the
+    # runner with no assertion output and reads like a broken toolchain.
+    env:
+      PORT: "3000"
+      DATABASE_URL: "postgres://ci:ci@127.0.0.1:1/ci"
+      JWT_SECRET: "ci-not-a-real-secret"
+      AI_PROVIDER_API_KEY: "ci-not-a-real-key"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      # The "lint" half of this pipeline is the TypeScript compiler, not ESLint.
+      # No linter is configured in either project, and adding one is a piece of
+      # work in its own right rather than something to smuggle into a CI issue.
+      # Strict-mode tsc is this project's real static gate. tsconfig.test.json is
+      # used here because the build config's rootDir excludes tests/.
+      - name: Typecheck
+        run: npx tsc -p tsconfig.test.json --noEmit
+
+      # No database service container: neither suite touches one.
+      - name: Test
+        run: npm test
+
+  frontend:
+    name: Frontend typecheck and tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend-widget
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: frontend-widget/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      # No separate test config here: this project's tsconfig already sets
+      # noEmit and has no rootDir, so tests are simply part of it.
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      # Headless jsdom, no browser driver. Expect roughly a minute on a cold
+      # run, most of it environment setup rather than the assertions; a warm run
+      # is a few seconds. A slow first run here is normal, not a hang.
+      - name: Test
+        run: npm test

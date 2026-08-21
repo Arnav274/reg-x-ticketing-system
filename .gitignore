@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.DS_Store
+.vscode/
+*.local.json
+.vite/
+repomix-output.*
+my-project-ai.md

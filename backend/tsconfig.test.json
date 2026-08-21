@@ -1,0 +1,14 @@
+{
+  // Typecheck-only view that adds `tests` to the project. The build config is
+  // left alone on purpose: its rootDir is `src`, so widening its `include`
+  // would push an extra directory level into dist/ and break `npm start`.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    // The base config's rootDir is `src`, which `tests` sits outside of. Since
+    // nothing is emitted here, widening it only satisfies the compiler's
+    // containment check; it has no effect on what `npm run build` produces.
+    "rootDir": "."
+  },
+  "include": ["src", "tests"]
+}

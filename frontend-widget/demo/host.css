@@ -1,0 +1,566 @@
+@import "../src/styles/tokens.css";
+
+/*
+  Chrome for the four demo host pages. These stand in for the internal product
+  screens the widget is meant to embed into, so the widget is seen against
+  something resembling its real context rather than against an empty page.
+
+  Every value here comes from tokens.css. No hex colour, no font stack and no
+  literal font size appears in this file, which is what keeps the host pages and
+  the widget one visual system rather than two that happen to sit together.
+
+  Deliberately quieter than the widget itself: neutral throughout, with no
+  accent colour anywhere. The pine accent belongs to the widget, and keeping it
+  off the host is what lets the launcher read as something dropped into the page
+  rather than part of it. That decision carries through here too, and is the
+  reason the nav, the cards and the tables are all built from the neutral ramp.
+
+  Class prefix is `hp-` (host page), matching the widget's `tw-` and the admin
+  console's `ad-`. The page's own chrome uses semantic elements (nav, main,
+  section, table) so that the one bare-element selector this file needs, for the
+  widget's container, cannot accidentally catch anything the page owns.
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--tk-ground);
+}
+
+body {
+  /*
+    Deliberately a plain block with no layout of its own. src/index.tsx appends
+    the widget's container as the last child of body, so making body a flex or
+    grid container would silently enrol that container as a layout item and move
+    the launcher somewhere nobody chose. Page layout lives on .hp-main instead.
+  */
+  margin: 0;
+  padding: 0;
+  font-family: var(--tk-sans);
+  font-size: var(--tk-fs-base);
+  line-height: 1.5;
+  color: var(--tk-ink);
+  background: var(--tk-ground);
+}
+
+/*
+  The widget's own container, appended to body by src/index.tsx with no class of
+  its own. The host owns *where* the embed sits; the widget owns how it looks
+  inside, so this sets alignment only and never reaches past the container into
+  `.tw` markup. Matching on `body > div` is safe precisely because every element
+  this file's pages define is a semantic one.
+*/
+body > div {
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: 0 var(--tk-5) var(--tk-6);
+}
+
+/* --------------------------------------------------------------------- nav */
+
+.hp-nav {
+  position: sticky;
+  top: 0;
+  /* Far below the widget overlay's own stacking (2147483000), so the modal is
+     never covered by the page chrome behind it. */
+  z-index: 10;
+  background: var(--tk-surface);
+  border-bottom: 1px solid var(--tk-line);
+}
+
+.hp-nav__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--tk-5);
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: 0 var(--tk-5);
+}
+
+.hp-brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--tk-2);
+  flex: none;
+  padding: var(--tk-3) 0;
+}
+
+.hp-brand__mark {
+  padding: var(--tk-1) var(--tk-2);
+  font-size: var(--tk-fs-micro);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--tk-surface);
+  background: var(--tk-ink);
+  border-radius: var(--tk-r);
+}
+
+.hp-brand__name {
+  font-size: var(--tk-fs-sm);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.hp-nav__links {
+  display: flex;
+  align-items: stretch;
+  gap: var(--tk-1);
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hp-nav__link {
+  display: block;
+  padding: var(--tk-4) var(--tk-3);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+  text-decoration: none;
+  white-space: nowrap;
+  /* Transparent rather than absent so the current-page rule below only changes
+     the colour, and the text never shifts by a pixel between states. */
+  border-bottom: 2px solid transparent;
+}
+
+.hp-nav__link:hover {
+  color: var(--tk-ink);
+  background: var(--tk-sunken);
+}
+
+.hp-nav__link[aria-current="page"] {
+  font-weight: 650;
+  color: var(--tk-ink);
+  border-bottom-color: var(--tk-ink);
+}
+
+.hp-nav__link:focus-visible {
+  outline: 2px solid var(--tk-ink);
+  outline-offset: -2px;
+}
+
+/* Pushed away from the four products: the ticket console is a different kind of
+   destination, not a fifth product. The margin has to sit on the <li>, which is
+   the flex item, rather than on the <a> inside it. */
+.hp-nav__item--admin {
+  margin-left: auto;
+}
+
+.hp-user {
+  display: flex;
+  align-items: center;
+  gap: var(--tk-2);
+  flex: none;
+  padding-left: var(--tk-4);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+  white-space: nowrap;
+  border-left: 1px solid var(--tk-line);
+}
+
+.hp-avatar {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: var(--tk-fs-micro);
+  font-weight: 650;
+  color: var(--tk-ink);
+  background: var(--tk-sunken);
+  border: 1px solid var(--tk-line);
+  border-radius: 50%;
+}
+
+/* -------------------------------------------------------------------- page */
+
+.hp-main {
+  max-width: 74rem;
+  margin: 0 auto;
+  padding: var(--tk-6) var(--tk-5) var(--tk-5);
+}
+
+.hp-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--tk-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--tk-5);
+}
+
+.hp-head h1 {
+  margin: 0;
+  font-size: var(--tk-fs-lg);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.hp-sub {
+  margin: var(--tk-1) 0 0;
+  color: var(--tk-ink-2);
+}
+
+.hp-period {
+  padding: var(--tk-2) var(--tk-3);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line);
+  border-radius: var(--tk-r);
+}
+
+.hp-section {
+  margin-bottom: var(--tk-5);
+}
+
+.hp-section__title {
+  margin: 0 0 var(--tk-3);
+  font-size: var(--tk-fs-md);
+  font-weight: 650;
+}
+
+.hp-note {
+  margin: var(--tk-3) 0 0;
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-3);
+}
+
+/* ------------------------------------------------------------------- cards */
+
+.hp-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--tk-4);
+}
+
+.hp-card {
+  padding: var(--tk-4);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line);
+  border-radius: var(--tk-r-lg);
+}
+
+.hp-card__label {
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+}
+
+.hp-card__value {
+  margin-top: var(--tk-2);
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-lg);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.hp-card__foot {
+  margin-top: var(--tk-1);
+  font-size: var(--tk-fs-micro);
+  color: var(--tk-ink-3);
+}
+
+/* ------------------------------------------------------------------- panel */
+
+.hp-panel {
+  padding: var(--tk-5);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line);
+  border-radius: var(--tk-r-lg);
+}
+
+.hp-panel--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.hp-panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--tk-4);
+  padding: var(--tk-4) var(--tk-5);
+  border-bottom: 1px solid var(--tk-line);
+}
+
+.hp-panel__title {
+  margin: 0;
+  font-size: var(--tk-fs-base);
+  font-weight: 650;
+}
+
+.hp-panel__meta {
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-3);
+}
+
+.hp-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--tk-4);
+}
+
+/* ------------------------------------------------------------------- chart */
+
+/*
+  Bars are divs with a percentage width, not a charting library: a dependency
+  for six static bars would fail the project's no-new-dependency rule, and an
+  SVG hand-rolled here would be more code for the same picture. One neutral
+  throughout, because these six regimes are not ranked against each other and
+  colouring them differently would imply a meaning the data does not carry.
+*/
+.hp-chart {
+  display: grid;
+  gap: var(--tk-3);
+}
+
+.hp-bar-row {
+  display: grid;
+  grid-template-columns: 7rem 1fr 4rem;
+  align-items: center;
+  gap: var(--tk-3);
+}
+
+.hp-bar-label {
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+}
+
+.hp-bar-track {
+  height: 0.75rem;
+  background: var(--tk-sunken);
+  border-radius: var(--tk-r);
+}
+
+/* display:block is load-bearing, not tidiness. The fill is a <span>, and width
+   and height do not apply to an inline box, so without this the bar renders as
+   an empty track at every value. The track escapes the same fate only because a
+   grid item is blockified automatically. */
+.hp-bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--tk-ink-3);
+  border-radius: var(--tk-r);
+}
+
+/* The figure is never carried by the bar alone: the bar is redundant encoding,
+   so the numbers survive a greyscale print or a low-contrast screen. */
+.hp-bar-value {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink);
+  text-align: right;
+}
+
+/* ------------------------------------------------------------------- table */
+
+.hp-tablewrap {
+  overflow-x: auto;
+}
+
+.hp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.hp-table th,
+.hp-table td {
+  padding: var(--tk-3) var(--tk-4);
+  text-align: left;
+  border-bottom: 1px solid var(--tk-line);
+}
+
+.hp-table th {
+  font-size: var(--tk-fs-micro);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tk-ink-3);
+  background: var(--tk-sunken);
+  white-space: nowrap;
+}
+
+.hp-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.hp-table td {
+  color: var(--tk-ink-2);
+}
+
+.hp-strong {
+  color: var(--tk-ink);
+  font-weight: 600;
+}
+
+.hp-num {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.hp-muted {
+  color: var(--tk-ink-3);
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------------------- pill */
+
+/*
+  Status uses the severity ramp already defined in tokens.css rather than a new
+  one. Same meanings, same hues: a failed submission and a High ticket are both
+  the thing you deal with first.
+*/
+.hp-pill {
+  display: inline-block;
+  padding: var(--tk-1) var(--tk-2);
+  font-size: var(--tk-fs-micro);
+  font-weight: 650;
+  border: 1px solid;
+  border-radius: var(--tk-r);
+  white-space: nowrap;
+}
+
+.hp-pill--ok {
+  color: var(--tk-low-fg);
+  background: var(--tk-low-bg);
+  border-color: var(--tk-low-line);
+}
+
+.hp-pill--warn {
+  color: var(--tk-med-fg);
+  background: var(--tk-med-bg);
+  border-color: var(--tk-med-line);
+}
+
+.hp-pill--bad {
+  color: var(--tk-high-fg);
+  background: var(--tk-high-bg);
+  border-color: var(--tk-high-line);
+}
+
+.hp-pill--idle {
+  color: var(--tk-ink-2);
+  background: var(--tk-sunken);
+  border-color: var(--tk-line);
+}
+
+/* ---------------------------------------------------------------- settings */
+
+.hp-setting {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--tk-4);
+  padding: var(--tk-4) 0;
+  border-bottom: 1px solid var(--tk-line);
+}
+
+.hp-setting:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.hp-setting:first-of-type {
+  padding-top: 0;
+}
+
+.hp-setting__label {
+  font-weight: 600;
+}
+
+.hp-setting__hint {
+  margin: var(--tk-1) 0 0;
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-3);
+}
+
+.hp-input,
+.hp-select {
+  min-width: 12rem;
+  padding: var(--tk-2) var(--tk-3);
+  font-family: inherit;
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line-strong);
+  border-radius: var(--tk-r);
+}
+
+.hp-input:focus-visible,
+.hp-select:focus-visible,
+.hp-switch:focus-visible {
+  outline: 2px solid var(--tk-ink);
+  outline-offset: 2px;
+}
+
+.hp-code {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+  background: var(--tk-sunken);
+  padding: var(--tk-1) var(--tk-2);
+  border-radius: var(--tk-r);
+}
+
+/*
+  A checkbox restyled as a track, rather than a div pretending to be one: it
+  stays a real control, so it is focusable, keyboard operable and announced as a
+  checkbox without any ARIA being bolted on.
+*/
+.hp-switch {
+  appearance: none;
+  flex: none;
+  width: 2.25rem;
+  height: 1.25rem;
+  margin: 0;
+  background: var(--tk-line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  position: relative;
+}
+
+.hp-switch::after {
+  content: "";
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  background: var(--tk-surface);
+  border-radius: 50%;
+}
+
+.hp-switch:checked {
+  background: var(--tk-ink);
+}
+
+.hp-switch:checked::after {
+  left: auto;
+  right: 0.1875rem;
+}
+
+/* ------------------------------------------------------------- narrow view */
+
+@media (max-width: 60rem) {
+  .hp-cards,
+  .hp-grid-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hp-nav__inner {
+    flex-wrap: wrap;
+    gap: var(--tk-2);
+  }
+
+  .hp-user {
+    padding-left: 0;
+    border-left: 0;
+  }
+}

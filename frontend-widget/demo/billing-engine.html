@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/demo/host.css" />
+    <title>Billing Engine</title>
+  </head>
+  <body>
+    <!-- Nav links use the contract paths verbatim; see analytics-hub.html. -->
+    <nav class="hp-nav" aria-label="Product">
+      <div class="hp-nav__inner">
+        <span class="hp-brand">
+          <span class="hp-brand__mark">RRP</span>
+          <span class="hp-brand__name">Regulatory Reporting Platform</span>
+        </span>
+        <ul class="hp-nav__links">
+          <li><a class="hp-nav__link" href="/analytics-hub">Analytics Hub</a></li>
+          <li><a class="hp-nav__link" href="/user-portal">User Portal</a></li>
+          <li><a class="hp-nav__link" href="/billing-engine" aria-current="page">Billing Engine</a></li>
+          <li><a class="hp-nav__link" href="/settings-suite">Settings Suite</a></li>
+          <li class="hp-nav__item--admin"><a class="hp-nav__link" href="/admin">Tickets</a></li>
+        </ul>
+        <span class="hp-user">
+          <span class="hp-avatar" aria-hidden="true">JD</span>
+          johndoe
+        </span>
+      </div>
+    </nav>
+
+    <main class="hp-main">
+      <div class="hp-head">
+        <div>
+          <h1>Billing Engine</h1>
+          <p class="hp-sub">Usage-based charges for submissions filed on your behalf.</p>
+        </div>
+        <span class="hp-period">Billing period: July 2026</span>
+      </div>
+
+      <section class="hp-section" aria-label="Billing summary">
+        <div class="hp-cards">
+          <div class="hp-card">
+            <div class="hp-card__label">Billed this period</div>
+            <div class="hp-card__value">£48,210</div>
+            <div class="hp-card__foot">excluding VAT</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Outstanding</div>
+            <div class="hp-card__value">£12,940</div>
+            <div class="hp-card__foot">across 2 invoices</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Chargeable submissions</div>
+            <div class="hp-card__value">12,847</div>
+            <div class="hp-card__foot">£3.75 per submission</div>
+          </div>
+          <div class="hp-card">
+            <div class="hp-card__label">Next invoice</div>
+            <div class="hp-card__value">1 Sep</div>
+            <div class="hp-card__foot">generated automatically</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="hp-section">
+        <div class="hp-panel hp-panel--flush">
+          <div class="hp-panel__head">
+            <h2 class="hp-panel__title">Invoices</h2>
+            <span class="hp-panel__meta">Last 6 periods</span>
+          </div>
+          <div class="hp-tablewrap">
+            <table class="hp-table">
+              <thead>
+                <tr>
+                  <th scope="col">Invoice</th>
+                  <th scope="col">Period</th>
+                  <th scope="col">Reporting entity</th>
+                  <th scope="col">Submissions</th>
+                  <th scope="col">Amount</th>
+                  <th scope="col">Due</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="hp-strong">INV-2026-0742</td>
+                  <td>July 2026</td>
+                  <td>Northwind Capital LLP</td>
+                  <td class="hp-num">6,204</td>
+                  <td class="hp-num">£23,265.00</td>
+                  <td class="hp-muted">31 Aug 2026</td>
+                  <td><span class="hp-pill hp-pill--idle">Draft</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">INV-2026-0741</td>
+                  <td>July 2026</td>
+                  <td>Pemberton Asset Management</td>
+                  <td class="hp-num">4,118</td>
+                  <td class="hp-num">£15,442.50</td>
+                  <td class="hp-muted">31 Aug 2026</td>
+                  <td><span class="hp-pill hp-pill--idle">Draft</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">INV-2026-0688</td>
+                  <td>June 2026</td>
+                  <td>Northwind Capital LLP</td>
+                  <td class="hp-num">5,847</td>
+                  <td class="hp-num">£21,926.25</td>
+                  <td class="hp-muted">31 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--warn">Awaiting payment</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">INV-2026-0687</td>
+                  <td>June 2026</td>
+                  <td>Calder Fund Services</td>
+                  <td class="hp-num">1,902</td>
+                  <td class="hp-num">£7,132.50</td>
+                  <td class="hp-muted">31 Jul 2026</td>
+                  <td><span class="hp-pill hp-pill--bad">Overdue</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">INV-2026-0634</td>
+                  <td>May 2026</td>
+                  <td>Northwind Capital LLP</td>
+                  <td class="hp-num">5,511</td>
+                  <td class="hp-num">£20,666.25</td>
+                  <td class="hp-muted">30 Jun 2026</td>
+                  <td><span class="hp-pill hp-pill--ok">Paid</span></td>
+                </tr>
+                <tr>
+                  <td class="hp-strong">INV-2026-0633</td>
+                  <td>May 2026</td>
+                  <td>Harlow Securities Ltd</td>
+                  <td class="hp-num">844</td>
+                  <td class="hp-num">£3,165.00</td>
+                  <td class="hp-muted">30 Jun 2026</td>
+                  <td><span class="hp-pill hp-pill--ok">Paid</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="hp-section">
+        <div class="hp-grid-2">
+          <div class="hp-panel">
+            <h2 class="hp-section__title">Charges by regime</h2>
+            <div class="hp-chart">
+              <div class="hp-bar-row">
+                <span class="hp-bar-label">EMIR REFIT</span>
+                <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 100%"></span></span>
+                <span class="hp-bar-value">£18,420</span>
+              </div>
+              <div class="hp-bar-row">
+                <span class="hp-bar-label">MiFIR</span>
+                <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 71%"></span></span>
+                <span class="hp-bar-value">£13,080</span>
+              </div>
+              <div class="hp-bar-row">
+                <span class="hp-bar-label">SFTR</span>
+                <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 44%"></span></span>
+                <span class="hp-bar-value">£8,100</span>
+              </div>
+              <div class="hp-bar-row">
+                <span class="hp-bar-label">Other regimes</span>
+                <span class="hp-bar-track"><span class="hp-bar-fill" style="width: 47%"></span></span>
+                <span class="hp-bar-value">£8,610</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hp-panel">
+            <h2 class="hp-section__title">Billing account</h2>
+            <div class="hp-setting">
+              <div>
+                <div class="hp-setting__label">Payment method</div>
+                <p class="hp-setting__hint">Direct debit, account ending 4471</p>
+              </div>
+              <span class="hp-pill hp-pill--ok">Verified</span>
+            </div>
+            <div class="hp-setting">
+              <div>
+                <div class="hp-setting__label">Billing contact</div>
+                <p class="hp-setting__hint">finance@northwind-capital.example</p>
+              </div>
+              <span class="hp-muted">3 recipients</span>
+            </div>
+            <div class="hp-setting">
+              <div>
+                <div class="hp-setting__label">Purchase order reference</div>
+                <p class="hp-setting__hint">Printed on every invoice</p>
+              </div>
+              <span class="hp-code">PO-88213</span>
+            </div>
+            <div class="hp-setting">
+              <div>
+                <div class="hp-setting__label">Consolidated invoicing</div>
+                <p class="hp-setting__hint">One invoice covering every entity in the group</p>
+              </div>
+              <span class="hp-pill hp-pill--idle">Off</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>

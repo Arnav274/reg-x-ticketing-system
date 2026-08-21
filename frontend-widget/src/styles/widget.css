@@ -1,0 +1,354 @@
+@import "./tokens.css";
+
+/*
+  Every rule in this file is scoped under `.tw`.
+
+  The widget is an isolated embeddable component that drops into four host
+  pages it does not own. A single bare element or `body` selector here would
+  repaint the page around it, so there are none: the widget styles itself and
+  nothing else.
+*/
+
+.tw {
+  font-family: var(--tk-sans);
+  font-size: var(--tk-fs-base);
+  line-height: 1.5;
+  color: var(--tk-ink);
+}
+
+.tw *,
+.tw *::before,
+.tw *::after {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------- launcher */
+
+/*
+  Fixed rather than static: the widget's container is appended as the last
+  child of `body` (src/index.tsx), so a static launcher renders whereever that
+  puts it in document flow, below the fold on any page taller than the
+  viewport. Fixed positioning removes it from flow entirely, so it stays
+  reachable regardless of page height or scroll position, with no change
+  needed to where the container is mounted.
+
+  z-index sits one below the modal overlay's 2147483000 (same stacking
+  neighbourhood, so both remain above ordinary host-page content, and the
+  overlay still wins when the modal is open) rather than an arbitrary small
+  number that a host page's own z-index could outrank.
+*/
+.tw-launch {
+  position: fixed;
+  right: var(--tk-5);
+  bottom: var(--tk-5);
+  z-index: 2147482999;
+  font: inherit;
+  font-weight: 600;
+  color: var(--tk-surface);
+  background: var(--tk-accent);
+  border: 1px solid var(--tk-accent);
+  border-radius: var(--tk-r);
+  padding: var(--tk-2) var(--tk-4);
+  box-shadow: var(--tk-lift);
+  cursor: pointer;
+}
+
+.tw-launch:hover {
+  background: var(--tk-accent-hover);
+  border-color: var(--tk-accent-hover);
+}
+
+.tw-launch:focus-visible,
+.tw-modal__close:focus-visible,
+.tw-select:focus-visible,
+.tw-textarea:focus-visible,
+.tw-submit:focus-visible,
+.tw-toggle input:focus-visible {
+  outline: 2px solid var(--tk-accent);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------- modal */
+
+/*
+  The dialog already carried role="dialog" aria-modal="true" but rendered
+  inline in the document flow, so the semantics claimed a modal the appearance
+  never delivered. Fixed positioning is what closes that gap, and it is safe
+  here because nothing in the widget sets transform, filter or contain, any of
+  which would turn an ancestor into the containing block instead of the
+  viewport.
+*/
+.tw-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: grid;
+  place-items: center;
+  padding: var(--tk-5);
+  background: var(--tk-overlay);
+  animation: tw-fade 120ms ease-out;
+}
+
+.tw-modal {
+  width: min(30rem, 100%);
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line);
+  border-radius: var(--tk-r-lg);
+  box-shadow: var(--tk-lift);
+  animation: tw-rise 140ms ease-out;
+}
+
+@keyframes tw-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes tw-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tw-overlay,
+  .tw-modal {
+    animation: none;
+  }
+}
+
+.tw-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tk-3);
+  padding: var(--tk-4) var(--tk-5);
+  border-bottom: 1px solid var(--tk-line);
+}
+
+.tw-modal__title {
+  margin: 0;
+  font-size: var(--tk-fs-md);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+/* Docked into the header rather than floating loose above the content, which
+   is what made it read as a stray artefact instead of a control. */
+.tw-modal__close {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  font: inherit;
+  font-size: var(--tk-fs-md);
+  line-height: 1;
+  color: var(--tk-ink-2);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--tk-r);
+  cursor: pointer;
+}
+
+.tw-modal__close:hover {
+  color: var(--tk-ink);
+  background: var(--tk-sunken);
+  border-color: var(--tk-line);
+}
+
+/* -------------------------------------------------------------------- form */
+
+.tw-form {
+  display: grid;
+  gap: var(--tk-4);
+  padding: var(--tk-5);
+  margin: 0;
+}
+
+.tw-identity {
+  margin: 0;
+  padding: var(--tk-2) var(--tk-3);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+  background: var(--tk-sunken);
+  border-radius: var(--tk-r);
+}
+
+.tw-field {
+  display: grid;
+  gap: var(--tk-2);
+}
+
+/* Fixed minimum height so the transient "Suggesting category" badge cannot
+   push the fields below it down and then let them snap back. */
+.tw-field__head {
+  display: flex;
+  align-items: center;
+  gap: var(--tk-2);
+  min-height: 1.25rem;
+}
+
+.tw-label {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tk-ink-2);
+}
+
+.tw-select,
+.tw-textarea {
+  font: inherit;
+  width: 100%;
+  color: var(--tk-ink);
+  background: var(--tk-surface);
+  border: 1px solid var(--tk-line-strong);
+  border-radius: var(--tk-r);
+  padding: var(--tk-2) var(--tk-3);
+}
+
+/* Left padding wide enough to clear the AI rail, applied in every state so the
+   value does not move when the rail appears or clears. */
+.tw-select {
+  padding-left: var(--tk-4);
+}
+
+.tw-textarea {
+  font-family: var(--tk-sans);
+  min-height: 7.5rem;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+/* Sans, not mono, so the detected-product readout and the product dropdown it
+   swaps places with read as two states of one field rather than two fields. */
+.tw-readout {
+  margin: 0;
+  padding: var(--tk-2) 0;
+  font-size: var(--tk-fs-base);
+  font-weight: 550;
+  color: var(--tk-ink);
+}
+
+/* ------------------------------------------------------------ AI provenance */
+
+/*
+  An AI suggestion should read as a suggestion, not a decision already made for
+  the user. Two cues, one signal: the badge names the source, and the rail on
+  the control marks which value it applies to. Both are cleared the moment the
+  user picks for themselves.
+*/
+.tw-badge {
+  font-family: var(--tk-mono);
+  font-size: var(--tk-fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.tw-badge--ai {
+  color: var(--tk-accent);
+  background: var(--tk-accent-tint);
+  border-color: var(--tk-accent-line);
+}
+
+.tw-badge--pending {
+  font-family: var(--tk-sans);
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--tk-ink-2);
+  background: var(--tk-sunken);
+  border-color: var(--tk-line);
+}
+
+/* The rail is drawn inside the existing left padding rather than adding to it.
+   Widening the padding only in this state shifted the selected text sideways
+   the moment the user overrode the suggestion, which drew the eye to the wrong
+   thing at exactly the wrong moment. */
+.tw-select--ai {
+  border-color: var(--tk-accent-line);
+  box-shadow: inset 3px 0 0 var(--tk-accent);
+}
+
+.tw-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--tk-2);
+  font-size: var(--tk-fs-sm);
+  color: var(--tk-ink-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.tw-toggle input {
+  accent-color: var(--tk-accent);
+  margin: 0;
+  cursor: pointer;
+}
+
+.tw-ai {
+  display: grid;
+  gap: var(--tk-3);
+  padding: var(--tk-3);
+  background: var(--tk-ground);
+  border: 1px solid var(--tk-line);
+  border-radius: var(--tk-r);
+}
+
+/* ------------------------------------------------------------------ submit */
+
+.tw-submit {
+  justify-self: start;
+  font: inherit;
+  font-weight: 600;
+  padding: var(--tk-2) var(--tk-5);
+  color: var(--tk-surface);
+  background: var(--tk-accent);
+  border: 1px solid var(--tk-accent);
+  border-radius: var(--tk-r);
+  cursor: pointer;
+}
+
+.tw-submit:hover:not(:disabled) {
+  background: var(--tk-accent-hover);
+  border-color: var(--tk-accent-hover);
+}
+
+/* Solid pine against flat grey. The disabled state has to be unmistakable at a
+   glance, not a slightly faded copy of the enabled one. */
+.tw-submit:disabled {
+  color: var(--tk-ink-disabled);
+  background: var(--tk-sunken);
+  border-color: var(--tk-line-strong);
+  cursor: not-allowed;
+}
+
+/* ----------------------------------------------------------------- notices */
+
+.tw-notice {
+  margin: 0;
+  padding: var(--tk-3);
+  font-size: var(--tk-fs-sm);
+  border: 1px solid;
+  border-left-width: 3px;
+  border-radius: var(--tk-r);
+}
+
+.tw-notice--ok {
+  color: var(--tk-accent);
+  background: var(--tk-accent-tint);
+  border-color: var(--tk-accent-line);
+}
+
+.tw-notice--error {
+  color: var(--tk-high-fg);
+  background: var(--tk-high-bg);
+  border-color: var(--tk-high-line);
+}
